@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../config';
 import { Search, Compass, MapPin, Sparkles, Shield, Eye, Flame, Map } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
@@ -20,15 +21,15 @@ export const LandingPage = () => {
       try {
         setLoading(true);
         // Get categories
-        const catRes = await axios.get('/api/destinations/categories');
+        const catRes = await axios.get(`${API_BASE_URL}/api/destinations/categories`);
         setCategories(catRes.data);
 
         // Get trending places
-        const trendRes = await axios.get('/api/destinations?trending=true');
+        const trendRes = await axios.get(`${API_BASE_URL}/api/destinations?trending=true`);
         setTrendingPlaces(trendRes.data.slice(0, 3)); // show top 3
       } catch (err) {
         console.error('Error loading landing page data:', err);
-        setError('Unable to fetch latest destinations. Please check if backend is running.');
+        setError('Unable to fetch latest destinations. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -248,7 +249,6 @@ export const LandingPage = () => {
         {error && (
           <div className="p-6 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-400 rounded-2xl text-center">
             <p className="font-semibold">{error}</p>
-            <p className="text-sm mt-1">Please launch the FastAPI backend using `uvicorn app.main:app --reload` and seed database using `python app/seed.py`.</p>
           </div>
         )}
 
