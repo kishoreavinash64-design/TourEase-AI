@@ -65,9 +65,8 @@ export const SearchDestinations = () => {
         setLoading(true);
         setError(null);
 
-        // Construct search queries
+        // Construct search queries (excluding searchVal to filter instantly client-side)
         const params = {};
-        if (searchVal) params.search = searchVal;
         if (selectedState) params.state = selectedState;
         if (selectedCategory) params.category_id = selectedCategory;
         if (selectedBudget) params.budget = selectedBudget;
@@ -84,7 +83,7 @@ export const SearchDestinations = () => {
     };
 
     fetchDestinations();
-  }, [searchVal, selectedState, selectedCategory, selectedBudget, selectedSeason]);
+  }, [selectedState, selectedCategory, selectedBudget, selectedSeason]);
 
   // Client-side filtering logic with robust null checks and error handling
   useEffect(() => {
